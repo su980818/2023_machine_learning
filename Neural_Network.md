@@ -37,6 +37,44 @@ model.fit(
 </pre>
 
 ## Show a infer with images 
+
+It returns a list of possibilities for each label
 <pre>
-prediction_labels  = model.predict(scaled_test_samples)
+prediction_labels = model.predict(scaled_test_samples)
+</pre>
+<pre>
+ [0.96872485 0.03127513]
+ ...
+ [0.05153604 0.9484639 ]
+</pre>
+You can see the most possible label using a argmax
+<pre>
+for i in np.argmax(prediction_labels, axis=-1):
+    print(i)
+</pre>
+
+## Saving And Loading The Model In Its Entirety
+Check the model architecture and weights
+<pre>
+model.summary()
+print( model.weights )
+</pre>
+
+#### (1) Save The architecture and weights same as prior model
+<pre>
+model.save('models/medical_trial_model.h5')
+new_model = tf.keras.models.load_model('models/medical_trial_model.h5')
+</pre>
+
+#### (2) Save Only The Architecture Of The Model
+<pre>
+json_string = model.to_json()
+new_model =  tf.keras.models.model_from_json(json_string)
+</pre>
+
+#### (3) Save Only The weights Of The Model
+
+<pre>
+model.save_weights('models/my_model_weights.h5')
+new_model.load_weights('models/my_model_weights.h5')
 </pre>
